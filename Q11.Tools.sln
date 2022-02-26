@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32210.238
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Q11.Tools", "Q11.Tools\Q11.Tools.csproj", "{E4E532BF-1213-4880-96E1-E505051DBF45}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Q11.Tools.Tests", "Q11.Tools.Tests\Q11.Tools.Tests.csproj", "{C77D3E4E-8F24-452F-98E2-77D31CE5E063}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E4E532BF-1213-4880-96E1-E505051DBF45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4E532BF-1213-4880-96E1-E505051DBF45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4E532BF-1213-4880-96E1-E505051DBF45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4E532BF-1213-4880-96E1-E505051DBF45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C77D3E4E-8F24-452F-98E2-77D31CE5E063}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C77D3E4E-8F24-452F-98E2-77D31CE5E063}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C77D3E4E-8F24-452F-98E2-77D31CE5E063}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C77D3E4E-8F24-452F-98E2-77D31CE5E063}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DA3D085F-F8E0-4803-802E-B81E36A3C07A}
+	EndGlobalSection
+EndGlobal
