@@ -9,8 +9,8 @@
 		<PackageProjectUrl>https://github.com/q11nl/Q11.Tools</PackageProjectUrl>
 		<PackageIcon>Los hoofd.png</PackageIcon>
 		<RepositoryType>git</RepositoryType>
-		<AssemblyVersion>1.0.0</AssemblyVersion>
-		<FileVersion>1.0.0</FileVersion>
+		<AssemblyVersion>1.0.1</AssemblyVersion>
+		<FileVersion>1.0.1</FileVersion>
 		<ApplicationIcon>Q11nl.ico</ApplicationIcon>
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
