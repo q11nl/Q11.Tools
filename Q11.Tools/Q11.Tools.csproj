@@ -7,7 +7,7 @@
 		<Description>Additions to the .NET framework for general puposes.</Description>
 		<Copyright>MIT</Copyright>
 		<PackageProjectUrl>https://github.com/q11nl/Q11.Tools</PackageProjectUrl>
-		<PackageIcon>Los hoofd.png</PackageIcon>
+		<PackageIcon>Los-hoofd-128x128.png</PackageIcon>
 		<RepositoryType>git</RepositoryType>
 		<AssemblyVersion>1.0.1</AssemblyVersion>
 		<FileVersion>1.0.1</FileVersion>
@@ -22,10 +22,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Include="..\..\..\Users\alex\Dropbox\Q11.nl\Logo\logo zelf\print\Aangepast\Los hoofd.png">
-			<Pack>True</Pack>
-			<PackagePath>\</PackagePath>
-		</None>
+	  <None Update="Los-hoofd-128x128.png">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
 	</ItemGroup>
 
 </Project>
