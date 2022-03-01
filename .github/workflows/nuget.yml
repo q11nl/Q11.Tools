@@ -1,6 +1,10 @@
 name: "Deploy to NuGet"
 
-on: ["push"]
+#on: ["push"]
+on:
+  push:
+    branches:
+      - master
 
 env:
   PROJECT_PATH: 'Q11.Tools/Q11.Tools.csproj'
