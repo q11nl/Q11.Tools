@@ -1,41 +1,13 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using Q11.Tools.Conversion.Handlers;
+using Q11.Tools.Conversion.Handlers.Base;
+using Q11.Tools.Conversion.Pocos;
 using Q11.Tools.Extensions;
 
 namespace Q11.Tools.Conversion
 {
-    internal class ChangeTypeRequest<T>
-    {
-        public object? value { get; }
-        public CultureInfo cultureInfo { get; }
-        public bool returnDefaultValueWhenPossible { get; }
-        public string StringClean { get; }
-        public bool valueIsString { get; }
-        public Type fromType { get; }
-        public Type toType { get; }
-
-        //public object NonNullValue => value is { } nonNullValue ? nonNullValue : throw new NotSupportedException();
-        public T? ValueCastedToT => value is { } nonNullValue ? (T)nonNullValue : default;
-
-        public bool ToTypeIsNullableStruct => toType.IsGenericType && toType.GetGenericTypeDefinition() == typeof(Nullable<>);
-        public bool IsFromType<TFromType>() => toType == typeof(TFromType);
-        public bool IsToType<TToType>() => toType == typeof(TToType);
-
-        public ChangeTypeRequest(object? value, CultureInfo cultureInfo, bool returnDefaultValueWhenPossible)
-        {
-            this.value = value;
-            this.cultureInfo = cultureInfo;
-            this.returnDefaultValueWhenPossible = returnDefaultValueWhenPossible;
-            StringClean = (value as string ?? "").Trim();
-            valueIsString = value is string;
-            fromType = value?.GetType() ?? typeof(object);
-            toType = typeof(T);
-        }
-    }
-
     public static class ChangeTypeExtensions
     {
         private static readonly CultureInfo DefaultCultureInfo = CultureInfo.InvariantCulture;
@@ -46,13 +18,28 @@ namespace Q11.Tools.Conversion
         {
             return new List<IHandler>
             {
+                // This is not in random order!
                 new NullToClassHandler(),
                 new NonStringToStringHandler(),
-                new StringToTHandler<string>(),
+                new StringToStringHandler(),
                 new StringToEnumHandler(),
-                new EmptyStringToNonStringHandler(),
+                new StringEmptyToNonStringHandler(),
                 new StringToGuidHandler(),
-                new OtherHandler()
+                new StringInScientificNotationToFloatingPointHandler(),
+                new StringIToTimeSpanHandler(),
+                new StringToDateOnlyHandler(),
+                new StringToTimeOnlyHandler(),
+                new ToNullableStructHandler(),
+                new NullThrowsExceptionHandler(),
+                new ConvertibleToNonEnumConvertibleHandler(),
+                new ToEnumHandler(),
+                new DateTimeToDateOnlyHandler(),
+                new DateTimeToTimeOnlyHandler(),
+                new TimeOnlyToDateTimeHandler(),
+                new DateOnlyToDateTimeHandler(),
+                new TimeSpanToTimeOnlyHandler(),
+                new TimeOnlyToTimeSpanHandler(),
+                new OtherHandler(),
             };
         }
 
@@ -66,8 +53,9 @@ namespace Q11.Tools.Conversion
 
         internal static T? ChangeTypeImplementation<T>(this ChangeTypeRequest<T> request)
         {
-            var handler = AllHandlers.First(h => h.CanHandle(request));
-            return handler.GetValue(request);
+            var response = AllHandlers.Select(h => h.GetResponse(request))
+                                      .First(r => r.CanHandle);
+            return response.ChangedValue;
         }
 
         /// <summary>
@@ -185,7 +173,7 @@ namespace Q11.Tools.Conversion
             var fromType = value.GetType();
 
             // ReSharper disable once SuspiciousTypeConversion.Global, Generic Type T can be IConvertible
-            var canConvert = fromType is IConvertible && ConvertsWithIConvertible(toType) && !toType.IsEnum;
+            var canConvert = value is IConvertible && ConvertsWithIConvertible(toType) && !toType.IsEnum;
 
             if (canConvert)
             {
@@ -290,7 +278,7 @@ namespace Q11.Tools.Conversion
 
         }
 
-        public static object? ChangeType(this object value, Type theTypeToChangeTo, CultureInfo cultureInfo, bool returnDefaultValueWhenPossible)
+        public static object? ChangeType(this object? value, Type theTypeToChangeTo, CultureInfo cultureInfo, bool returnDefaultValueWhenPossible)
         {
             MethodInfo? method = typeof(ChangeTypeExtensions).GetMethod(nameof(ChangeTypeWithUniqueName), BindingFlags.NonPublic | BindingFlags.Static);
             method = method!.MakeGenericMethod(theTypeToChangeTo);

@@ -67,25 +67,3 @@ public void OrderSender_ShouldSendToCorrectPerson()
     sendResult.Name.Should().Be(person.Name);
 }
 }
-
-public class OrderSender
-{
-    public SendOrderResult SendTo(Person person)
-    {
-        return new SendOrderResult();
-    }
-}
-
-public class SendOrderResult
-{
-    public string Name { get; set; }
-}
-
-public class Person
-{
-    public string Name { get; set; }
-    public int SingleNumber { get; set; }
-    public Person Child { get; set; }
-    public DateTime SomeDate { get; set; }
-    public List<long> MultipleNumbers { get; set; }
-}

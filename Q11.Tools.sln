@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Q11.Tools", "Q11.Tools\Q11.Tools.csproj", "{E4E532BF-1213-4880-96E1-E505051DBF45}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Q11.Tools", "Q11.Tools\Q11.Tools.csproj", "{E4E532BF-1213-4880-96E1-E505051DBF45}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Q11.Tools.Tests", "Q11.Tools.Tests\Q11.Tools.Tests.csproj", "{C77D3E4E-8F24-452F-98E2-77D31CE5E063}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Q11.Tools.Tests", "Q11.Tools.Tests\Q11.Tools.Tests.csproj", "{C77D3E4E-8F24-452F-98E2-77D31CE5E063}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsole", "TestConsole\TestConsole.csproj", "{10B6A74D-C658-45E3-8EEB-EC3A4BB0E66A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{C77D3E4E-8F24-452F-98E2-77D31CE5E063}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C77D3E4E-8F24-452F-98E2-77D31CE5E063}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C77D3E4E-8F24-452F-98E2-77D31CE5E063}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10B6A74D-C658-45E3-8EEB-EC3A4BB0E66A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10B6A74D-C658-45E3-8EEB-EC3A4BB0E66A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10B6A74D-C658-45E3-8EEB-EC3A4BB0E66A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10B6A74D-C658-45E3-8EEB-EC3A4BB0E66A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,10 +1,13 @@
-﻿namespace Q11.Tools.Conversion.Handlers;
+﻿using Q11.Tools.Conversion.Handlers.Base;
+using Q11.Tools.Conversion.Pocos;
 
-internal class EmptyStringToNonStringHandler : HandlerBase
+namespace Q11.Tools.Conversion.Handlers;
+
+internal class StringEmptyToNonStringHandler : HandlerConditional
 {
     public override bool CanHandle<T>(ChangeTypeRequest<T> request)
     {
-        return request.StringClean == "" && !request.IsToType<string>();
+        return request.stringClean == "" && !request.IsToType<string>();
     }
 
     public override T? GetValue<T>(ChangeTypeRequest<T> request) where T : default

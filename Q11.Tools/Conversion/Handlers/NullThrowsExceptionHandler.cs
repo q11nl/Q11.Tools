@@ -3,14 +3,13 @@ using Q11.Tools.Conversion.Pocos;
 
 namespace Q11.Tools.Conversion.Handlers;
 
-internal class StringToGuidHandler : HandlerBase
+internal class NullThrowsExceptionHandler : HandlerBase
 {
     public override ChangeTypeResponse<T> GetResponse<T>(ChangeTypeRequest<T> request)
     {
-        if (request.valueIsString && request.IsToType<Guid>() &&
-            Guid.TryParse(request.stringClean, out var result))
+        if (request.value == null)
         {
-            return request.GetResponse((T)(object)result);
+            throw new ArgumentException("Null can not be converted to non nullable struct.", nameof(request.value));
         }
 
         return CanNotHandle<T>();
