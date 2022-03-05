@@ -3,15 +3,15 @@ using Q11.Tools.Conversion.Pocos;
 
 namespace Q11.Tools.Conversion.Handlers;
 
-internal class NonStringToStringHandler : HandlerConditional
+internal class SameTypeHandler : HandlerConditional
 {
     public override bool CanHandle<T>(ChangeTypeRequest<T> request)
     {
-        return !request.valueIsString && request.IsToType<string>();
+        return request.IsFromToType<T, T>();
     }
 
     public override T? GetValue<T>(ChangeTypeRequest<T> request) where T : default
     {
-        return request.GetValue(Convert.ToString(request.value, request.cultureInfo));
+        return request.value != null ? (T)request.value : default;
     }
 }

@@ -11,12 +11,11 @@ internal class ChangeTypeRequest<T>
     public bool valueIsString { get; }
     public Type fromType { get; }
     public Type toType { get; }
-
-    //public object NonNullValue => value is { } nonNullValue ? nonNullValue : throw new NotSupportedException();
+    
     public T? ValueCastedToT => value is { } nonNullValue ? (T)nonNullValue : default;
 
     public bool ToTypeIsNullableStruct => toType.IsGenericType && toType.GetGenericTypeDefinition() == typeof(Nullable<>);
-    public bool IsFromType<TFromType>() => toType == typeof(TFromType);
+    public bool IsFromType<TFromType>() => fromType == typeof(TFromType);
     public bool IsToType<TToType>() => toType == typeof(TToType);
     public bool IsFromToType<TFromType,TToType>() => IsFromType<TFromType>() && IsToType<TToType>();
 
@@ -26,8 +25,9 @@ internal class ChangeTypeRequest<T>
         this.cultureInfo = cultureInfo;
         this.returnDefaultValueWhenPossible = returnDefaultValueWhenPossible;
         stringClean = (value as string ?? "").Trim();
-        valueIsString = value is string;
         fromType = value?.GetType() ?? typeof(object);
         toType = typeof(T);
+        valueIsString = fromType == typeof(string);
+
     }
 }

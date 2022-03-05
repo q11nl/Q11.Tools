@@ -7,7 +7,7 @@ internal class StringEmptyToNonStringHandler : HandlerConditional
 {
     public override bool CanHandle<T>(ChangeTypeRequest<T> request)
     {
-        return request.stringClean == "" && !request.IsToType<string>();
+        return request.IsFromType<string>() && request.stringClean == "" && !request.IsToType<string>();
     }
 
     public override T? GetValue<T>(ChangeTypeRequest<T> request) where T : default

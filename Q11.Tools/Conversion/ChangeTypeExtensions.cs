@@ -19,6 +19,7 @@ namespace Q11.Tools.Conversion
             return new List<IHandler>
             {
                 // This is not in random order!
+                new SameTypeHandler(),
                 new NullToClassHandler(),
                 new NonStringToStringHandler(),
                 new StringToStringHandler(),
@@ -51,12 +52,37 @@ namespace Q11.Tools.Conversion
             return ChangeType<T>(value, DefaultCultureInfo, returnDefaultValueWhenPossible);
         }
 
-        internal static T? ChangeTypeImplementation<T>(this ChangeTypeRequest<T> request)
+
+        private static int Started = 0;
+        internal static T? ChangeTypeImplementationTest<T>(this ChangeTypeRequest<T> request)
         {
-            var response = AllHandlers.Select(h => h.GetResponse(request))
-                                      .First(r => r.CanHandle);
+            var started = ++Started;
+            var guid = Guid.NewGuid();
+            var fromtype = request.fromType;
+            var totype = request.toType;
+            var RequestValue = request.value;
+            ChangeTypeResponse<T> response = default;
+            foreach (var handler in AllHandlers)
+            {
+                response = handler.GetResponse(request);
+                if (response.CanHandle)
+                {
+                    break;
+                }
+            }
+
+            var value = response.ChangedValue;
             return response.ChangedValue;
         }
+
+        internal static T? ChangeTypeImplementation<T>(this ChangeTypeRequest<T> request)
+        {
+
+            var response = AllHandlers.Select(h => h.GetResponse(request))
+                .First(r => r.CanHandle);
+            return response.ChangedValue;
+        }
+
 
         /// <summary>
         /// Convert anything to T, possibly a null
@@ -65,7 +91,7 @@ namespace Q11.Tools.Conversion
         bool returnDefaultValueWhenPossible = DefaultReturnDefaultValueWhenPossible)
         {
             var request = new ChangeTypeRequest<T>(value, cultureInfo, returnDefaultValueWhenPossible);
-            //return ChangeTypeImplementation<T>(request);
+            return ChangeTypeImplementation<T>(request);
             
             if (request.value == null && request.toType.IsClass) return default;
             
@@ -243,7 +269,7 @@ namespace Q11.Tools.Conversion
 
         private static bool IsTypeOfFloatingPoint<T>()
         {
-            return OtherExtensions.IsIn(typeof(T), typeof(float), typeof(float?), typeof(double), typeof(double?), typeof(decimal), typeof(decimal?));
+            return typeof(T).IsIn(typeof(float), typeof(float?), typeof(double), typeof(double?), typeof(decimal), typeof(decimal?));
         }
 
         private static object ConvertScientificNotationToType<T>(object value)
@@ -252,17 +278,17 @@ namespace Q11.Tools.Conversion
 
             var numberStyle = NumberStyles.AllowDecimalPoint | NumberStyles.AllowExponent | NumberStyles.AllowLeadingSign;
 
-            if (OtherExtensions.IsIn(typeof(T), typeof(double), typeof(double?)))
+            if (typeof(T).IsIn(typeof(double), typeof(double?)))
             {
                 return double.Parse(eNotation, numberStyle, CultureInfo.InvariantCulture);
             }
 
-            if (OtherExtensions.IsIn(typeof(T), typeof(float), typeof(float?)))
+            if (typeof(T).IsIn(typeof(float), typeof(float?)))
             {
                 return float.Parse(eNotation, numberStyle, CultureInfo.InvariantCulture);
             }
 
-            if (OtherExtensions.IsIn(typeof(T), typeof(decimal), typeof(decimal?)))
+            if (typeof(T).IsIn(typeof(decimal), typeof(decimal?)))
             {
                 return decimal.Parse(eNotation, numberStyle, CultureInfo.InvariantCulture);
             }
@@ -272,7 +298,7 @@ namespace Q11.Tools.Conversion
 
         private static bool ConvertsWithIConvertible(Type type)
         {
-            return OtherExtensions.IsIn(type, typeof(bool), typeof(char), typeof(sbyte), typeof(byte), typeof(short), typeof(ushort),
+            return type.IsIn(typeof(bool), typeof(char), typeof(sbyte), typeof(byte), typeof(short), typeof(ushort),
                              typeof(int), typeof(uint), typeof(long), typeof(ulong), typeof(float), typeof(double),
                              typeof(decimal), typeof(DateTime), typeof(string));
 
@@ -282,7 +308,7 @@ namespace Q11.Tools.Conversion
         {
             MethodInfo? method = typeof(ChangeTypeExtensions).GetMethod(nameof(ChangeTypeWithUniqueName), BindingFlags.NonPublic | BindingFlags.Static);
             method = method!.MakeGenericMethod(theTypeToChangeTo);
-            var result = method.Invoke(null, new[] { value, returnDefaultValueWhenPossible, cultureInfo });
+            var result = method.Invoke(null, new[] { value, cultureInfo, returnDefaultValueWhenPossible});
 
             return result;
         }
