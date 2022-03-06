@@ -13,6 +13,8 @@ internal class ChangeTypeRequest<T>
     public Type toType { get; }
     
     public T? ValueCastedToT => value is { } nonNullValue ? (T)nonNullValue : default;
+    public bool IsFromImplementing<TOther>() => value is TOther;
+    public bool IsToImplementing<TOther>() => toType.IsAssignableFrom(typeof(TOther));
 
     public bool ToTypeIsNullableStruct => toType.IsGenericType && toType.GetGenericTypeDefinition() == typeof(Nullable<>);
     public bool IsFromType<TFromType>() => fromType == typeof(TFromType);

@@ -40,6 +40,8 @@ namespace Q11.Tools.Conversion
                 new DateOnlyToDateTimeHandler(),
                 new TimeSpanToTimeOnlyHandler(),
                 new TimeOnlyToTimeSpanHandler(),
+                new EnumerableToListHandler(),
+                new EnumerableToArrayHandler(),
                 new OtherHandler(),
             };
         }

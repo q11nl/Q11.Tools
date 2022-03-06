@@ -37,14 +37,4 @@ internal class ListHandler : HandlerBase
             .Range(1, GetTnt(1, maximumItemCount))
             .Select(_ => GenericRandom.NextWithLevel<T>(level)).ToList();
     }
-
-    protected T GetGenericMethodValue<T>(object instance , string nameOfMethod, Type genericParameterType, params object[] parameters)
-    {
-        var getListMethod = typeof(ListHandler).GetMethod(nameof(GetList),
-            BindingFlags.Instance | BindingFlags.NonPublic)!;
-
-        var genericGetListMethod = getListMethod.MakeGenericMethod(genericParameterType);
-        var result = genericGetListMethod.Invoke(this, parameters);
-        return (T) result!;
-    }
 }
