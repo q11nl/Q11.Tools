@@ -29,3 +29,16 @@ public class NonStringToStringHandlerTests
         actual.Should().Be(expected);
     }
 }
+
+public class StringInScientificNotationToFloatingPointHandlerTests
+{
+    [Fact]
+    public void EnumToString_ReturnsEnumString()
+    {
+        var input = DayOfWeek.Monday;
+
+        var actual = input.ChangeType<string>();
+
+        actual.Should().Be(nameof(DayOfWeek.Monday));
+    }
+}
